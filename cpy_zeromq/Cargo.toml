@@ -1,0 +1,5 @@
+[package]
+
+name = "cpy_zeromq"
+version = "0.0.1"
+authors = ["crimoon"]

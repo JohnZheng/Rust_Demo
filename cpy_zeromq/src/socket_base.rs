@@ -5,6 +5,7 @@ use result::{ZmqResult, ZmqError};
 use inproc::InprocCommand;
 use consts::ErrorCode;
 use std::net::SocketAddr;
+use tcp_connecter::TcpConnecter;
 
 pub enum SocketMessage {
     Ping,
@@ -42,9 +43,22 @@ impl SocketBase {
 		match protocol {
 			"tcp" => {
 				match SocketAddr::from_str(address) {
-					Some() => expr,
+					Some(addr) => {
+						TcpConnecter::spawn_new(addr, self.tx.clone(), self.options.clone());
+						Ok(())
+					},
+					None => Err(ZmqError::new(
+						ErrorCode::INVAL,
+						"Invaid argument: bad address")),
 				}
 			},
+			"inproc" => {
+				self.inproc_sender.send(InprocCommand::DoConnect(String::from_str(address), self.tx.clone()));
+				Ok(())
+			},
+			_ => Err(ZmqError::new(
+				ErrorCode::EPROTONOSUPPORT, 
+				"Protocol not support")),
 		}
 	}
 }

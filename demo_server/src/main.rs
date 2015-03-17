@@ -26,7 +26,6 @@ fn start_server(addr: &str) {
     };
 
     fn handle_client_read(stream: &mut TcpStream, tx: Sender<Vec<u8>>) {
-        // let mut sf = SocketFlow::new();
         let mut buf = [0u8; 128];
         loop {
             let read_bytes = match stream.read(&mut buf) {
@@ -52,7 +51,6 @@ fn start_server(addr: &str) {
                 Ok(_) => {},
                 Err(_) => {println!("Error!!!");}
             }
-            // stream.shutdown(Shutdown::Write);
             stream.flush();
         }
     }

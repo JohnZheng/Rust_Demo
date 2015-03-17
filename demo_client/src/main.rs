@@ -28,19 +28,21 @@ fn send_receive_echo_message(addr: &str) {
     let mut buf = [0u8; 128];
     loop {
         let world = std::old_io::stdin().read_line().ok().expect("error input");
-        stream.write_all(world.as_bytes());
+        stream.write_all(world.trim_right().as_bytes());
         stream.flush();
-        println!("==================");
-        // stream.shutdown(Shutdown::Write);
-        let read_bytes = match stream.read(&mut buf) {
-            Ok(bytes) => bytes,
-            Err(e) => {
-                println!("Error reading the input: {}", e);
-                return;
+        loop {
+            let read_bytes = match stream.read(&mut buf) {
+                Ok(bytes) => bytes,
+                Err(e) => {
+                    println!("Error reading the input: {}", e);
+                    return;
+                }
+            };
+            if read_bytes != 0 {
+                println!("client: {} read_bytes {}", buf.to_vec().container_as_str().unwrap(), read_bytes);
+                buf = [0u8; 128];
+                break;
             }
-        };
-        println!("client: {}", buf.to_vec().container_as_str().unwrap());
-        buf = [0u8; 128];
-        // stream.shutdown(Shutdown::Read);
+        }
     }
 }

@@ -29,7 +29,6 @@ fn start_server(addr: &str) {
         // let mut sf = SocketFlow::new();
         let mut buf = [0u8; 128];
         loop {
-            println!(" ======================== ");
             let read_bytes = match stream.read(&mut buf) {
                 Ok(bytes) => bytes,
                 Err(e) => {
@@ -38,20 +37,18 @@ fn start_server(addr: &str) {
                 }
             };
             if (read_bytes != 0) {
-                println!("inner bytes ");
                 tx.send(buf.to_vec());
                 buf = [0u8; 128];
             }
         }
-        println!("breaked !!! ");
     }
 
     fn handle_client_write(stream: &mut TcpStream, rx: Receiver<Vec<u8>>) {
         loop {
             let msg = rx.recv().unwrap();
-            let recvMsg = format!("echo:{}", msg.container_as_str().unwrap());
+            let recvMsg = format!("{}", msg.container_as_str().unwrap());
             println!("server: {}", recvMsg );
-            match stream.write_all(recvMsg.container_as_bytes()) {
+            match stream.write_all(recvMsg.trim_right().container_as_bytes()) {
                 Ok(_) => {},
                 Err(_) => {println!("Error!!!");}
             }

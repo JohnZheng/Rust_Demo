@@ -1,5 +1,5 @@
 use msg::Msg;
-use std::io:Write;
+use std::io::Write;
 use msg;
 use v2_protocol;
 
@@ -10,14 +10,14 @@ impl V2Encoder {
 		V2Encoder
 	}
 
-	pub fn encode(&self, msg: Box<Msg>, writer: &mut Write) -> Result<()> {
+	pub fn encode(&self, msg: Box<Msg>, writer: &mut Write) -> Result<(), ()> {
 		let mut protocol_flags = 0u8;
 		if msg.flags & msg::MORE != 0 {
 			protocol_flags |= v2_protocol::MORE_FLAG;
 		}
 
 		if msg.data.len() > 255 {
-			protocol_flags |= v2_protocol:LARGE_FLAG;
+			protocol_flags |= v2_protocol::LARGE_FLAG;
 		}
 
 		if msg.flags & msg::COMMAND != 0 {

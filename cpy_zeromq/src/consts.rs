@@ -21,7 +21,7 @@ pub enum ErrorCode {
     ECONNRESET = libc::ECONNRESET as int,
     ECONNABORTED = libc::ECONNABORTED as int,
     ENOTCONN = libc::ENOTCONN as int,
-    ETIMEOUT = libc::ETIMEOUT as int,
+    ETIMEDOUT = libc::ETIMEDOUT as int,
     EPROTONOSUPPORT = HAUSNUMERQ + 2,
     EMSGSIZE = HAUSNUMERQ + 10,
     EFSM = HAUSNUMERQ + 51,

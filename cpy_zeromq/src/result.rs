@@ -25,12 +25,12 @@ impl ZmqError {
 	pub fn from_io_error(e: Error) -> ZmqError {
 		ZmqError {
 			code: match e.kind() {
-				io::PermissionDenied => ErrorCode::EACCES,
-				io::ConnectionRefused => ErrorCode::ECONNREFUSED,
-				io::ConnectionReset => ErrorCode::ECONNRESET,
-				io::ConnectionAborted => ErrorCode::ECONNABORTED,
-				io::NotConnected => ErrorCode::ENOTCONN,
-				io::TimedOut => ErrorCode::ETIMEOUT,
+				ErrorKind::PermissionDenied => ErrorCode::EACCES,
+				ErrorKind::ConnectionRefused => ErrorCode::ECONNREFUSED,
+				ErrorKind::ConnectionReset => ErrorCode::ECONNRESET,
+				ErrorKind::ConnectionAborted => ErrorCode::ECONNABORTED,
+				ErrorKind::NotConnected => ErrorCode::ENOTCONN,
+				ErrorKind::TimedOut => ErrorCode::ETIMEDOUT,
 				_ => ErrorCode::EIOERROR,
 			},
 			desc: e.description(),

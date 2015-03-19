@@ -20,20 +20,21 @@ impl V2Decoder {
 		let mut msg_flags = 0u8;
 		let read_bytes = match reader.read(&mut buf) {
 			Ok(bytes) => bytes,
-			Err(e) => println!("read buffer error");,
-		}
+			Err(e) => {
+				println!("read buffer error");
+			},
+		};
 
-		if (buf[0] & v2_protocol::MORE_FLAG != 0 ) {
+		if buf[0] & v2_protocol::MORE_FLAG != 0 {
 			msg_flags |= msg::MORE;
 		}
 		if (buf[0] & v2_protocol::COMMAND_FLAG != 0 ) {
 			msg_flags |= msg::COMMAND;
 		}
 		
-		let msg_size = 
-			if buf[0] & v2_protocol::LARGE_FLAG != 0 {
-				// let size 
-				// FLAG DEV
-			}
+		// let msg_size = 
+		// 	if buf[0] & v2_protocol::LARGE_FLAG != 0 {
+		// 		// let size = buf[]
+		// 	}
 	}
 }

@@ -2,7 +2,7 @@ pub static MORE: u8 = 1;
 pub static COMMAND: u8 = 2;
 
 #[derive(Debug)]
-pub struct msg {
+pub struct Msg {
     pub data: Vec<u8>,
     pub flags: u8,
 }

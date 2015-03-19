@@ -7,8 +7,8 @@ use std::sync::mpsc::{Sender, Receiver};
 use std::sync::mpsc::channel;
 use std::thread;
 use consts::ErrorCode;
-use v2_decoder:V2Decoder;
-use v2_encoder:V2Encoder;
+use v2_decoder::V2Decoder;
+use v2_encoder::V2Encoder;
 use msg::Msg;
 
 const V2_GREETING_SIZE: uint = 12;
@@ -58,7 +58,7 @@ impl StreamEngine {
 
 		let (tx, rx) = channel();
 		debug!("Feeding the peer channels to the socket object.");
-		if self.sender_to_socket.send(Ok(SocketMessage::OnConnected(msg_tx, rx)).is_err() {
+		if self.sender_to_socket.send(Ok(SocketMessage::OnConnected(msg_tx, rx))).is_err() {
 			warn!("Socket object is gone!");
 			return Ok(());
 		}
@@ -71,7 +71,7 @@ impl StreamEngine {
 				Err(e) => {
 					let _ = self.sender_to_socket.send(Err(e));
 					break;
-				}
+				},
 			}
 		}
 		Ok(())
@@ -97,7 +97,7 @@ impl StreamEngine {
 				Ok(n) => {
 					greeting_bytes_read += n;
 				},
-				Err(e) = {
+				Err(e) => {
 					return Err(ZmqError::from_io_error(e));
 				},
 			}

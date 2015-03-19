@@ -16,7 +16,7 @@ impl Context {
 		}
 	}
 
-	pub fn socket(&self: type_: SocketType) -> Box<ZmqSocket + Send> {
+	pub fn socket(&self, type_: SocketType) -> Box<ZmqSocket + Send> {
 		let base = SocketBase::new(self.inproc_mgr.clone_sender());
 		match type_ {
 			SocketType::REQ => Box::new(req::new(base)) as Box<ZmqSocket + Send>,
